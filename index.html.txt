@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="sv"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>F85</title><style>*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{background:#06060f;color:#e0e0f0;font-family:-apple-system,system-ui,monospace;padding:16px;max-width:420px;margin:0 auto}h1{text-align:center;font-size:24px;background:linear-gradient(90deg,#00d4ff,#00dd88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}.sub{text-align:center;font-size:10px;letter-spacing:3px;color:#555570;text-transform:uppercase;margin-bottom:14px}#cb{width:100%;padding:14px;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:12px;background:#1a1020;color:#ff3366;border:1px solid #331133}.tabs{display:flex;gap:3px;background:#0d0d1c;border-radius:12px;padding:3px;margin-bottom:14px}.tb{flex:1;padding:10px 0;border:none;border-radius:10px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:#555570}.tb.a{background:#1e1e3a;color:#fff}.spd{text-align:center;margin:10px 0}.spd .v{font-size:56px;font-weight:800;line-height:1}.spd .u{font-size:11px;color:#555570;margin-top:2px}.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0}.st{background:linear-gradient(135deg,#12122a,#1a1a35);border-radius:12px;padding:10px 6px;text-align:center}.st small{font-size:9px;color:#555570;text-transform:uppercase;letter-spacing:2px}.st div{font-size:16px;font-weight:700;margin-top:3px}.row{display:flex;gap:8px;margin:8px 0}.btn{flex:1;padding:14px;border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer}.btn:active{transform:scale(0.96)}.bs{background:linear-gradient(135deg,#0055bb,#0077ee);color:#fff}.bg{background:linear-gradient(135deg,#009960,#00dd88);color:#001a0e}.br{background:linear-gradient(135deg,#bb2244,#ff3366);color:#fff}.bx{background:transparent;color:#8888aa;border:1px solid #1e1e3a}.qs{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin:8px 0}.qs button{width:46px;height:38px;border-radius:10px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;background:#12122a;color:#8888aa;border:1px solid #1e1e3a}.qs button.a{border-color:#00d4ff;color:#00d4ff;background:rgba(0,212,255,0.08)}.warn{background:#1a1010;border:1px solid #442222;border-radius:10px;padding:10px 12px;margin:8px 0;font-size:11px;color:#cc8888;line-height:1.4}.err{background:#1a0a0a;border:1px solid #662222;border-radius:10px;padding:10px 12px;margin:8px 0;font-size:12px;color:#ff8888}.log{background:#080810;border:1px solid #1a1a2a;border-radius:8px;padding:8px;margin:6px 0;font-size:10px;color:#666680;max-height:100px;overflow-y:auto;display:none}.ibar{display:flex;height:26px;border-radius:8px;overflow:hidden;background:#0a0a15;margin:8px 0}.iseg{position:relative;min-width:3px;border-right:1px solid #06060f}.iseg span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#444;z-index:1}.pcard{background:linear-gradient(135deg,#12122a,#1a1a35);border-radius:14px;padding:14px;margin-bottom:10px}.pcard h3{font-size:14px;font-weight:700;margin-bottom:8px}.ptags{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}.ptag{font-size:9px;padding:3px 6px;border-radius:6px}.ptw{background:rgba(0,136,255,0.12);color:#4499dd}.ptr{background:rgba(0,204,102,0.08);color:#44aa66}.estep{background:linear-gradient(135deg,#12122a,#1a1a35);border-radius:12px;padding:12px;margin-bottom:8px}.einp{width:100%;background:#0a0a18;border:1px solid #1e1e3a;border-radius:8px;padding:8px;color:#e0e0f0;font-family:inherit;font-size:13px;margin-bottom:6px}.eadj{display:flex;align-items:center;gap:4px}.eadj button{width:30px;height:30px;border-radius:6px;background:#1e1e3a;border:none;color:#8888aa;font-size:16px;cursor:pointer}.eadj .val{flex:1;text-align:center;font-size:16px;font-weight:700}@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}</style></head><body>
+
+<div class="sub">SOLE FITNESS</div><h1>F85</h1><div style="height:12px"></div>
+<button id="cb" onclick="go()"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff3366;margin-right:6px"></span>Tryck för att ansluta Bluetooth</button>
+<div id="err"></div>
+<div id="lg" class="log"></div>
+<div class="tabs"><button class="tb a" onclick="sw('run')">Kör</button><button class="tb" onclick="sw('prog')">Program</button><button class="tb" onclick="sw('edit')">Skapa</button></div>
+<div id="main"></div>
+<script>
+const S={v:'run',cs:'dc',sp:0,ts:0,ti:0,li:0,el:0,ds:0,run:false,im:false,ap:null,ci:0,cp:null,td:null,hc:false,dev:null,dl:[],
+ci2:[{s:5,d:300,l:'Uppvärmning'},{s:10,d:60,l:'Intervall'},{s:5,d:120,l:'Vila'},{s:10,d:60,l:'Intervall'},{s:4,d:180,l:'Nedvarvning'}],
+ei:[]};
+const PP=[
+{n:'Nybörjarintervall',i:'🟢',iv:[{s:5,d:300,l:'Uppvärmning'},{s:8,d:60,l:'Intervall'},{s:5,d:120,l:'Vila'},{s:8,d:60,l:'Intervall'},{s:5,d:120,l:'Vila'},{s:8,d:60,l:'Intervall'},{s:5,d:120,l:'Vila'},{s:8,d:60,l:'Intervall'},{s:4,d:300,l:'Nedvarvning'}]},
+{n:'HIIT 4×4',i:'🔴',iv:[{s:6,d:600,l:'Uppvärmning'},{s:12,d:240,l:'Intervall 1'},{s:5,d:180,l:'Vila'},{s:12,d:240,l:'Intervall 2'},{s:5,d:180,l:'Vila'},{s:12,d:240,l:'Intervall 3'},{s:5,d:180,l:'Vila'},{s:12,d:240,l:'Intervall 4'},{s:4,d:300,l:'Nedvarvning'}]},
+{n:'Pyramidpass',i:'🟡',iv:[{s:5,d:300,l:'Uppvärmning'},{s:8,d:60,l:'Steg 1'},{s:5,d:60,l:'Vila'},{s:9,d:90,l:'Steg 2'},{s:5,d:60,l:'Vila'},{s:10,d:120,l:'Topp'},{s:5,d:60,l:'Vila'},{s:9,d:90,l:'Steg 4'},{s:5,d:60,l:'Vila'},{s:8,d:60,l:'Steg 5'},{s:4,d:300,l:'Nedvarvning'}]}
+];
+let tmr=null,htmr=null;
+function dl(m){S.dl.push(m);if(S.dl.length>6)S.dl.shift();const e=document.getElementById('lg');if(e){e.style.display='block';e.innerHTML=S.dl.join('<br>')}}
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function pace(k){if(!k)return'--:--';const p=60/k,m=Math.floor(p);return m+':'+String(Math.round((p-m)*60)).padStart(2,'0')}
+function clamp(v){return Math.round(Math.max(0,Math.min(20,v))*10)/10}
+
+async function go(){
+if(!navigator.bluetooth){document.getElementById(‘err’).innerHTML=’<div class="err">Web Bluetooth stöds inte. Använd Bluefy-webbläsaren.</div>’;return}
+dl(‘Öppnar Bluetooth-sökning…’);
+let dev;
+try{dev=await navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:[0x1826]})}
+catch(e){dl(‘Avbruten: ‘+e.message);document.getElementById(‘err’).innerHTML=’<div class="err">’+e.message+’</div>’;return}
+dl(‘Vald: ‘+(dev.name||’?’));
+const cb=document.getElementById(‘cb’);
+cb.innerHTML=’<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff8844;animation:p 1s infinite;margin-right:6px"></span>Ansluter till ‘+(dev.name||‘enhet’)+’…’;
+cb.style.background=’#1a1a20’;cb.style.color=’#ff8844’;cb.style.borderColor=’#333322’;
+S.dev=dev;
+dev.addEventListener(‘gattserverdisconnected’,()=>{S.cs=‘dc’;S.cp=null;S.td=null;S.hc=false;updCb();dl(‘Frånkopplad’)});
+try{
+dl(‘GATT connect…’);const srv=await dev.gatt.connect();
+dl(‘Söker FTMS…’);let svc;
+try{svc=await srv.getPrimaryService(0x1826)}catch(e){try{svc=await srv.getPrimaryService(‘00001826-0000-1000-8000-00805f9b34fb’)}catch(e2){throw new Error(‘FTMS-tjänst saknas på denna enhet’)}}
+dl(‘FTMS hittad!’);
+try{S.cp=await svc.getCharacteristic(0x2AD9);await S.cp.startNotifications();dl(‘Control Point ✓’)}catch(e){dl(‘Control Point saknas: ‘+e.message)}
+try{S.td=await svc.getCharacteristic(0x2ACD);await S.td.startNotifications();S.td.addEventListener(‘characteristicvaluechanged’,onTD);dl(‘Treadmill Data ✓’)}catch(e){dl(‘Treadmill Data saknas: ‘+e.message)}
+if(S.cp){try{await S.cp.writeValue(new Uint8Array([0x00]));S.hc=true;dl(‘Kontroll beviljad ✓’)}catch(e){dl(‘Kontrollbegäran nekad’)}}
+S.cs=‘cn’;updCb();dl(‘Ansluten och redo!’);document.getElementById(‘err’).innerHTML=’’;
+}catch(e){dl(‘FEL: ‘+e.message);document.getElementById(‘err’).innerHTML=’<div class="err">’+e.message+’</div>’;S.cs=‘dc’;updCb()}}
+
+function updCb(){const b=document.getElementById(‘cb’);if(S.cs===‘cn’){b.innerHTML=’<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00dd88;box-shadow:0 0 8px rgba(0,221,136,0.5);margin-right:6px"></span>Ansluten till ‘+(S.dev?.name||‘F85’);b.style.background=’#0a1a10’;b.style.color=’#00dd88’;b.style.borderColor=’#113322’;b.onclick=()=>{if(S.dev?.gatt?.connected)S.dev.gatt.disconnect();S.cs=‘dc’;S.cp=null;S.td=null;S.hc=false;updCb()}}else{b.innerHTML=’<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff3366;margin-right:6px"></span>Tryck för att ansluta Bluetooth’;b.style.background=’#1a1020’;b.style.color=’#ff3366’;b.style.borderColor=’#331133’;b.onclick=go}}
+
+function onTD(ev){const d=new DataView(ev.target.value.buffer);let o=0;const f=d.getUint16(o,true);o+=2;S.sp=d.getUint16(o,true)/100;o+=2;if(f&2)o+=2;if(f&4){o+=3}if(f&8){S.li=d.getInt16(o,true)/10;o+=4}if(f&0x10)o+=4;if(f&0x20)o+=2;if(f&0x40)o+=2;if(f&0x80)o+=6;if(f&0x100)o+=1;if(f&0x200)o+=1;if(f&0x400){S.el=d.getUint16(o,true);o+=2}R()}
+
+async function sSpd(v){if(!S.cp||!S.hc)return;const b=new ArrayBuffer(3),d=new DataView(b);d.setUint8(0,0x02);d.setUint16(1,Math.round(v*100),true);try{await S.cp.writeValue(new Uint8Array(b))}catch(e){dl(’Fart-fel: ’+e.message)}}
+async function sInc(v){if(!S.cp||!S.hc)return;const b=new ArrayBuffer(3),d=new DataView(b);d.setUint8(0,0x03);d.setInt16(1,Math.round(v*10),true);try{await S.cp.writeValue(new Uint8Array(b))}catch(e){dl(’Lutning-fel: ’+e.message)}}
+async function sStart(){if(!S.cp||!S.hc)return;try{await S.cp.writeValue(new Uint8Array([0x07]))}catch(e){}}
+async function sStop(p){if(!S.cp||!S.hc)return;try{await S.cp.writeValue(new Uint8Array([0x08,p?2:1]))}catch(e){}}
+
+function setSpd(v){S.ts=clamp(v);sSpd(S.ts);R()}
+function adjSpd(d){setSpd(S.ts+d)}
+function setInc(v){S.ti=Math.max(-6,Math.min(15,Math.round(v)));sInc(S.ti);R()}
+function startS(){if(!S.ts)S.ts=5;S.run=true;S.el=0;S.ds=0;sStart();sSpd(S.ts);sInc(S.ti);tmr=setInterval(()=>{S.el++;S.ds+=S.ts/3600;if(S.im&&S.ap)updI();R()},1000);R()}
+function pauseS(){S.run=false;sStop(true);clearInterval(tmr);R()}
+function stopS(){S.run=false;S.im=false;S.ap=null;S.ci=0;S.ts=0;S.ti=0;sStop(false);clearInterval(tmr);R()}
+function resS(){S.run=true;sStart();sSpd(S.ts);tmr=setInterval(()=>{S.el++;S.ds+=S.ts/3600;if(S.im&&S.ap)updI();R()},1000);R()}
+function updI(){const iv=S.ap;let tb=0;for(let i=0;i<iv.length;i++){if(S.el<tb+iv[i].d){if(i!==S.ci){S.ci=i;setSpd(iv[i].s)}return}tb+=iv[i].d}stopS()}
+function startP(iv){S.ap=iv;S.im=true;S.ci=0;S.ts=iv[0].s;S.ti=0;S.v=‘run’;startS()}
+function rstS(){S.el=0;S.ds=0;S.ts=0;S.ti=0;S.im=false;S.ap=null;S.ci=0;R()}
+function hd(fn){fn();htmr=setInterval(fn,250)}
+function hu(){clearInterval(htmr)}
+
+function ibar(iv,ci,el){const t=iv.reduce((a,b)=>a+b.d,0);return’<div class="ibar">’+iv.map((x,i)=>{const w=(x.d/t*100);const isA=i===ci,isD=i<ci,isW=x.s>=7;let bg=isW?’#1a3355’:’#1a2a1a’;if(isD)bg=isW?’#004488’:’#006633’;if(isA)bg=isW?’#0088ff’:’#00cc66’;let fp=0;if(isA&&el!==undefined){let eb=iv.slice(0,i).reduce((a,b)=>a+b.d,0);fp=Math.min(((el-eb)/x.d)*100,100)}
+return’<div class="iseg" style="width:'+w+'%;background:'+(isD||!isA?bg:'#1a2a1a')+'">’+(isA?’<div style="position:absolute;left:0;top:0;bottom:0;width:'+fp+'%;background:'+bg+';transition:width .5s linear"></div>’:’’)+(w>6?’<span style="color:'+(isA||isD?'#fff':'#444')+';font-weight:'+(isA?'700':'400')+'">’+x.s+’</span>’:’’)+’</div>’}).join(’’)+’</div>’}
+
+function sw(v){S.v=v;document.querySelectorAll(’.tb’).forEach((b,i)=>{b.className=‘tb’+([‘run’,‘prog’,‘edit’][i]===v?’ a’:’’)});R()}
+
+function R(){const m=document.getElementById(‘main’);if(S.v===‘run’)m.innerHTML=rRun();else if(S.v===‘prog’)m.innerHTML=rProg();else m.innerHTML=rEdit()}
+
+function rRun(){
+const ds=S.cs===‘cn’?S.sp:S.ts;
+const di=S.cs===‘cn’?S.li:S.ti;
+let h=’<div class="spd"><div class=“v”’+(S.cs===‘cn’?’ style=“color:#00dd88”’:’’)+’>’+ds.toFixed(1)+’</div><div class="u">km/h · Tempo: ‘+pace(ds)+’ min/km</div>’;
+if(S.ts!==ds&&S.run)h+=’<div style="color:#0088ff;font-size:13px;margin-top:4px">Mål → ‘+S.ts.toFixed(1)+’ km/h</div>’;
+h+=’</div>’;
+if(S.im&&S.ap){const iv=S.ap,cur=iv[S.ci];let eb=iv.slice(0,S.ci).reduce((a,b)=>a+b.d,0);let tl=Math.max(0,cur.d-(S.el-eb));
+h+=ibar(iv,S.ci,S.el)+’<div style="display:flex;justify-content:space-between;font-size:11px;color:#8888aa;margin:4px 0"><span>’+cur.l+’</span><span>’+fmt(tl)+’ kvar</span></div>’}
+h+=’<div class="stats"><div class="st"><small>Tid</small><div>’+fmt(S.el)+’</div></div><div class="st"><small>Distans</small><div>’+S.ds.toFixed(2)+’ km</div></div><div class="st"><small>Lutning</small><div>’+di+’%</div></div></div>’;
+if(S.cs!==‘cn’)h+=’<div class="warn"><strong style="color:#ff3366">⚠ Ej ansluten.</strong> Anslut via Bluetooth ovan för att styra löpbandet.</div>’;
+h+=’<div class="row"><button class="btn bs" onpointerdown="hd(()=>adjSpd(-0.5))" onpointerup="hu()" onpointerleave="hu()">▼ 0.5</button><button class="btn bs" onpointerdown="hd(()=>adjSpd(0.5))" onpointerup="hu()" onpointerleave="hu()">▲ 0.5</button></div>’;
+h+=’<div class="qs">’;[3,5,7,8,10,12,14,16].forEach(s=>{h+=’<button class="'+(S.ts===s?'a':'')+'" onclick="setSpd('+s+')">’+s+’</button>’});h+=’</div>’;
+h+=’<div class="row"><button class="btn bx" onclick="setInc(S.ti-1)">⛰ −</button><div style="font-size:18px;font-weight:700;min-width:50px;text-align:center;padding:10px">’+S.ti+’%</div><button class="btn bx" onclick="setInc(S.ti+1)">⛰ +</button></div>’;
+if(!S.run){if(S.el>0)h+=’<div class="row"><button class="btn bg" onclick="resS()">▶ FORTSÄTT</button><button class="btn bx" onclick="rstS()">⏹ NOLLSTÄLL</button></div>’;
+else h+=’<div class="row"><button class="btn bg" onclick="startS()">▶ STARTA</button></div>’}
+else h+=’<div class="row"><button class="btn br" onclick="pauseS()">⏸ PAUSA</button><button class="btn bx" style="flex:0.5" onclick="stopS()">⏹ STOPP</button></div>’;
+if(S.cs===‘cn’)h+=’<div class="warn"><strong style="color:#ff3366">⚠</strong> Ha säkerhetsklämman fäst. Löpbandets nödstopp fungerar alltid.</div>’;
+return h}
+
+function rProg(){let h=’<div style="font-size:13px;color:#8888aa;margin-bottom:8px">Färdiga program</div>’;
+PP.forEach((p,pi)=>{const t=p.iv.reduce((a,b)=>a+b.d,0);
+h+=’<div class="pcard"><h3>’+p.i+’ ‘+p.n+’ <span style="float:right;font-size:12px;color:#555570;font-weight:400">’+fmt(t)+’</span></h3>’+ibar(p.iv,-1,0)+’<div class="ptags">’+p.iv.map(x=>’<span class="ptag '+(x.s>=7?'ptw':'ptr')+'">’+x.l+’ ‘+x.s+‘km/h</span>’).join(’’)+’</div><button class="btn bg" style="width:100%;margin-top:8px" onclick="startP(PP['+pi+'].iv)">▶ Kör program</button></div>’});
+h+=’<div style="border-top:1px solid #1e1e3a;padding-top:12px;margin-top:8px"><div style="font-size:13px;color:#8888aa;margin-bottom:8px">Eget program</div>’;
+h+=’<div class="pcard"><h3>⚡ Mitt intervallpass</h3>’+ibar(S.ci2,-1,0)+’<div class="ptags">’+S.ci2.map(x=>’<span class="ptag '+(x.s>=7?'ptw':'ptr')+'">’+x.l+’ ‘+x.s+‘km/h</span>’).join(’’)+’</div><div class="row" style="margin-top:8px"><button class="btn bg" onclick="startP(S.ci2.slice())">▶ Kör</button><button class="btn bx" onclick="S.ei=JSON.parse(JSON.stringify(S.ci2));sw(\'edit\')">✏ Redigera</button></div></div></div>’;
+return h}
+
+function rEdit(){const iv=S.ei;let h=’<div style="font-size:13px;color:#8888aa;margin-bottom:8px">Skapa intervallpass</div>’;
+iv.forEach((x,i)=>{h+=’<div class="estep"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:12px;font-weight:700;color:#8888aa">Steg ‘+(i+1)+’</span><button style="background:none;border:none;color:#ff3366;font-size:18px;cursor:pointer;padding:2px 8px" onclick="S.ei.splice('+i+',1);R()">×</button></div><input class="einp" value="'+x.l+'" onchange="S.ei['+i+'].l=this.value"><div style="display:flex;gap:8px"><div style="flex:1"><div style="font-size:9px;color:#555570;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Fart</div><div class="eadj"><button onclick="S.ei['+i+'].s=Math.max(1,S.ei['+i+'].s-0.5);R()">−</button><div class="val" style="color:'+(x.s>=7?'#0088ff':'#00dd88')+'">’+x.s+’</div><button onclick="S.ei['+i+'].s=Math.min(20,S.ei['+i+'].s+0.5);R()">+</button></div></div><div style="flex:1"><div style="font-size:9px;color:#555570;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Tid</div><div class="eadj"><button onclick="S.ei['+i+'].d=Math.max(10,S.ei['+i+'].d-30);R()">−</button><div class="val">’+fmt(x.d)+’</div><button onclick="S.ei['+i+'].d=Math.min(3600,S.ei['+i+'].d+30);R()">+</button></div></div></div></div>’});
+h+=’<button class="btn bx" style="width:100%;margin:8px 0" onclick="S.ei.push({s:8,d:60,l:\'Steg \'+(S.ei.length+1)});R()">+ Lägg till steg</button>’;
+if(iv.length){h+=ibar(iv,-1,0)+’<div style="text-align:center;font-size:11px;color:#555570;margin:6px 0">Totalt: ‘+fmt(iv.reduce((a,b)=>a+b.d,0))+’</div>’}
+h+=’<button class=“btn bg” style=“width:100%;margin-top:8px”’+(iv.length?’’:’ disabled’)+’ onclick=“S.ci2=JSON.parse(JSON.stringify(S.ei));sw('prog')”>✓ Spara program</button>’;
+return h}
+R();
+</script></body></html>
